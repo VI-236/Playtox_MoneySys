@@ -5,6 +5,7 @@ import org.VI__236.models.Account;
 public class MoneyTransactions {
     private int outAccountMoney;
     private int inAccountMoney;
+    private boolean successOfTransaction = false;
 
     public void moneyTransactions(Account outAccount, Account inAccount, int transactionSum){
 
@@ -18,6 +19,7 @@ public class MoneyTransactions {
          else {
              outAccount.setMoney(outAccountMoney - transactionSum);
              inAccount.setMoney(inAccountMoney + transactionSum);
+             successOfTransaction = true;
          }
     }
 }

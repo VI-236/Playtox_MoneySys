@@ -8,8 +8,9 @@ public class RandomAccounts {
         int randOutAcc = (int)(Math.random() * sizeOfAccList);
         int randInAcc = (int)(Math.random() * sizeOfAccList);
 
-        if(randOutAcc == randInAcc){
-            randomAccounts(sizeOfAccList);
+        while (randOutAcc == randInAcc){
+            randOutAcc = (int)(Math.random() * sizeOfAccList);
+            randInAcc = (int)(Math.random() * sizeOfAccList);
         }
 
         randAccId[0] = randOutAcc;

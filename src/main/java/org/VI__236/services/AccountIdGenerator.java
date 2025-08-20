@@ -1,36 +1,30 @@
 package org.VI__236.services;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import org.VI__236.utill.MD5Hasher;
+
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class AccountIdGenerator {
 
-    private Set<String> accountsSet;
+    private MD5Hasher md5Hasher = new MD5Hasher();
+
+    private HashSet<String> accountsSet = new HashSet<>();
     private List <String> accountsIdList;
     private StringBuilder defaultStringBuilder = new StringBuilder();
 
     public List<String> accountsIdGenerator(int numOfAccounts){
-        while(accountsSet.size() < numOfAccounts){
+        for(int a = 0; a < numOfAccounts; a++){
 
             LocalDateTime currentTime = LocalDateTime.now();
-
             int salt = 1 + (int)(Math.random() * 1000);
-
             defaultStringBuilder.append(currentTime.toString() + salt);
+
             String defaultString = new String(defaultStringBuilder);
 
-            try {
-                MessageDigest md = MessageDigest.getInstance("MD5");
-                byte[] messageDigest = md.digest(defaultString.getBytes());
-                accountsSet.add(new String(messageDigest));
+            accountsSet.add(md5Hasher.hashStrings(defaultString));
 
-            } catch (NoSuchAlgorithmException e) {
-                throw new RuntimeException(e);
-            }
+            defaultStringBuilder.setLength(0);
         }
 
         return accountsIdList = new ArrayList<>(accountsSet);
