@@ -10,7 +10,7 @@ public class MD5Hasher {
     public String hashStrings(String inputStrings) {
 
         if (inputStrings == null) {
-            return new String ("No input String.");
+            return new String ("Строка не была введена");
         }
 
         try {
@@ -23,7 +23,7 @@ public class MD5Hasher {
 
 
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("MD5 algorithm not available", e);
+            throw new RuntimeException("Алгоритм MD5 не доступен", e);
         }
 
         return hashes;

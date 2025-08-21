@@ -5,21 +5,21 @@ import org.VI__236.models.Account;
 public class MoneyTransactions {
     private int outAccountMoney;
     private int inAccountMoney;
-    private boolean successOfTransaction = false;
 
-    public void moneyTransactions(Account outAccount, Account inAccount, int transactionSum){
+
+    public boolean moneyTransactions(Account outAccount, Account inAccount, int transactionSum){
 
          outAccountMoney = outAccount.getMoney();
          inAccountMoney = inAccount.getMoney();
 
          if(outAccountMoney < transactionSum){
-             System.out.println("Not enough money for that transaction.");
+             return false;
          }
 
          else {
              outAccount.setMoney(outAccountMoney - transactionSum);
              inAccount.setMoney(inAccountMoney + transactionSum);
-             successOfTransaction = true;
+             return true;
          }
     }
 }
