@@ -6,23 +6,23 @@ import org.apache.logging.log4j.*;
 import java.util.List;
 import java.util.concurrent.*;
 
-public class Starter {
+public class Facade {
 
-    private static final Logger logger = LogManager.getLogger(Starter.class);
+    private static final Logger logger = LogManager.getLogger(Facade.class);
     private final int numOfAccounts;
     private MoneyTransactions moneyTransactions = new MoneyTransactions();
     private AccountsCreator accountCreator = new AccountsCreator();
     private AccountIdGenerator accountIdGenerator = new AccountIdGenerator();
     private RandomAccounts randomAccounts = new RandomAccounts();
 
-    public Starter(){
+    public Facade(){
         numOfAccounts = 3 + (int)(Math.random() * 10);
         logger.info("Начало работы приложения");
-        logger.info("В конструктор класса Starter не было передано параметров, приложение начнёт работу " +
+        logger.info("В конструктор класса Facade не было передано параметров, приложение начнёт работу " +
                 "со случайным количеством аккаунтов");
     }
 
-    public Starter(int numOfAccounts){
+    public Facade(int numOfAccounts){
         this.numOfAccounts = numOfAccounts;
         logger.info("Начало работы приложения");
     }
