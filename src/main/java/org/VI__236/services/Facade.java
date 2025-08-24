@@ -5,6 +5,7 @@ import org.apache.logging.log4j.*;
 
 import java.util.List;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Facade {
 
@@ -14,6 +15,8 @@ public class Facade {
     private AccountsCreator accountCreator = new AccountsCreator();
     private AccountIdGenerator accountIdGenerator = new AccountIdGenerator();
     private RandomAccounts randomAccounts = new RandomAccounts();
+    private AtomicBoolean operationStatus = new AtomicBoolean(false);
+    private ExecutorService executor = Executors.newFixedThreadPool(4);
 
     public Facade(){
         numOfAccounts = 3 + (int)(Math.random() * 10);
@@ -31,7 +34,6 @@ public class Facade {
     public void starter(){
         logger.debug("Будет создано {} аккаунтов", numOfAccounts);
 
-        ExecutorService executor = Executors.newFixedThreadPool(4);
         List<Account> accountsList = accountCreator.creator(accountIdGenerator.accountsIdGenerator(numOfAccounts));
         int beginingMoneyInSys = 0;
         int endingMoneyInSys = 0;
@@ -65,11 +67,17 @@ public class Facade {
                     logger.debug("Состояние счёта зачисления: {}", accountsList.get(inAndOutAccounts[1]).getMoney());
 
                     try {
-                        moneyTransactions.moneyTransactions(accountsList.get(inAndOutAccounts[0]),
+                        operationStatus.set(moneyTransactions.moneyTransactions(accountsList.get(inAndOutAccounts[0]),
                                 accountsList.get(inAndOutAccounts[1]),
-                                transactionSum);
+                                transactionSum));
 
-                        logger.debug("Транзакция успешно выполнена");
+                        if (operationStatus.get() == true){
+                            logger.debug("Транзакция успешно выполнена");
+                        }
+                        else {
+                            logger.debug("Недостаточно средств для списания! Операция отменена.");
+                        }
+
                         logger.debug("Состояние счёта списания после: {}", accountsList.get(inAndOutAccounts[0]).getMoney());
                         logger.debug("Состояние счёта зачисления после: {}", accountsList.get(inAndOutAccounts[1]).getMoney());
 
